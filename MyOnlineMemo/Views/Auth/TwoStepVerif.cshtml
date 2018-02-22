@@ -1,0 +1,25 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>TwoStepVerif</title>
+</head>
+<body>
+    <div> 
+        <img src=@ViewData["url"] />
+        <br />
+        認証キー：<label>@ViewData["secretKey"]</label>
+        @using (Html.BeginForm("SetTwoStepVerif", "Auth", FormMethod.Post)) {
+            <input type="text" name="verifKey" />
+            <input type="submit" value="Set Key" />
+        }
+        <label>@ViewData["mes"]</label>
+    </div>
+</body>
+</html>
