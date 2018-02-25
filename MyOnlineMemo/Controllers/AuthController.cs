@@ -1,18 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using Base32;
 using MessagingToolkit.QRCode.Codec;
+using MyOnlineMemo.BusinessLayer;
 using OtpSharp;
-using System.IO;
-using System.Text;
 
 namespace MyOnlineMemo.Controllers
 {
     public class AuthController : Controller
     {
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public string CreateAccount(string usrId, string psswrd)
+        {
+            var service = new AuthService();
+            service.CreateAccount(usrId, psswrd);
+            return usrId;
+        }
+
         // GET: Auth
         public ActionResult TwoStepVerif()
         {
@@ -39,7 +53,9 @@ namespace MyOnlineMemo.Controllers
             ViewData["url"] = string.Format("data:{0};base64,{1}", "image/png", qrcodeString);
             return View();
         }
-        public ActionResult SetTwoStepVerif(string verifKey)
+        
+        [HttpPost]
+        public string SetTwoStepVerif(string verifKey)
         {
             byte[] secretKey = Base32Encoder.Decode(Session["secretKey"].ToString());
             long timeStepMatched = 0;
@@ -53,8 +69,7 @@ namespace MyOnlineMemo.Controllers
             {
                 message = "失敗";
             }
-            ViewData["mes"] = message;
-            return View("TwoStepVerif");
+            return message;
         }
     }
 }

@@ -8,7 +8,32 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>TwoStepVerif</title>
+    @Scripts.Render("~/bundles/jquery")
+    <script>
+            $(function(){
+                $("#auth").on("click", function(){
+                    auth();
+                })
+            });
+            var auth = function(){
+                var key = $("#key").val()
+                if(key == ""){
+                    alert("key is empty");
+                    return;
+                }
+                $.ajax({
+                    url: "/Auth/SetTwoStepVerif",
+                    type: "POST",
+                    data: { verifKey: key }
+                }).done(function(mes){
+                    alert(mes);
+                }).fail(function(xhr, stts, trace){
+                    alert(stts);
+                })
+            }
+    </script>
 </head>
 <body>
     <div> 
@@ -16,10 +41,9 @@
         <br />
         認証キー：<label>@ViewData["secretKey"]</label>
         @using (Html.BeginForm("SetTwoStepVerif", "Auth", FormMethod.Post)) {
-            <input type="text" name="verifKey" />
-            <input type="submit" value="Set Key" />
+            <input type="text" id="key" name="verifKey" />
+            <input type="button" id="auth" value="Set Key" />
         }
-        <label>@ViewData["mes"]</label>
     </div>
 </body>
 </html>

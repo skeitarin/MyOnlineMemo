@@ -16,7 +16,7 @@ namespace MyOnlineMemo
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Auth", action = "TwoStepVerif", id = UrlParameter.Optional }
+                defaults: new { controller = "Auth", action = "Create", id = UrlParameter.Optional }
             );
         }
     }

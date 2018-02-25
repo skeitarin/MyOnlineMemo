@@ -1,0 +1,39 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Create</title>
+    @Scripts.Render("~/bundles/jquery")
+    <script>
+            $(function(){
+                $("#create").on("click", function(){
+                    create();
+                })
+            });
+            var create = function(){
+                $.ajax({
+                    url: "/Auth/CreateAccount",
+                    type: "POST",
+                    data: { usrId: $("#usrId").val(), psswrd: $("#psswrd").val() }
+                }).done(function(mes){
+                    alert(mes);
+                }).fail(function(xhr, stts, trace){
+                    alert(stts);
+                })
+            }
+    </script>
+</head>
+<body>
+    <div>
+        USER ID : <input type="text" id="usrId" ><br/>
+        PASSWARD : <input type="password" id="psswrd" ><br/>
+        <input type="button" id="create" value="create">
+    </div>
+</body>
+</html>
